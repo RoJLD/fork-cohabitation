@@ -1,0 +1,8 @@
+[Unit]
+Description=cohabit watch --due (fork-cohabitation release watch)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/srv/cohabit/cohabit-watch.sh

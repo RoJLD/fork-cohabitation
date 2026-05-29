@@ -1,0 +1,2 @@
+# cohabit watch --due, tous les jours à 06:00 (le gating par repo est fait par --due)
+0 6 * * * /srv/cohabit/cohabit-watch.sh >> /var/log/cohabit-watch.log 2>&1
