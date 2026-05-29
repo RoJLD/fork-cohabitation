@@ -92,9 +92,9 @@ Champs requis :
 | Champ | Description |
 |---|---|
 | `name` | Identifiant court du repo (utilisé par les commandes `cohabit`) |
-| `path` | Chemin absolu vers la racine du repo sur le disque |
-| `tier` | Priorité de surveillance (`1` = critique, `2` = standard, `3` = best-effort) |
-| `cadence` | Fréquence de vérification recommandée pour `cohabit watch --due` (ex. `"weekly"`, `"monthly"`) |
+| `path` | Chemin vers la racine du repo, résolu **relativement** à la racine de `fork-cohabitation` (ex. `"../gitnexus"`) |
+| `tier` | Label d'importance, chaîne libre (ex. `"critical"` / `"normal"` / `"low"`) |
+| `cadence` | Fréquence de vérification pour `cohabit watch --due` : `"daily"` / `"weekly"` / `"monthly"` |
 
 Exemple minimal :
 
@@ -102,8 +102,8 @@ Exemple minimal :
 [
   {
     "name": "gitnexus",
-    "path": "C:/Users/rdenis/VScode/gitnexus",
-    "tier": 1,
+    "path": "../gitnexus",
+    "tier": "normal",
     "cadence": "weekly"
   }
 ]
