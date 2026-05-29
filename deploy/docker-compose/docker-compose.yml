@@ -1,0 +1,17 @@
+# Lance cohabit watch --due à la demande / via un cron hôte :
+#   docker compose -f deploy/docker-compose/docker-compose.yml run --rm cohabit
+# Ou planifié par crontab hôte (voir deploy/crontab/). Le volume nommé `work`
+# persiste repos.json + les clones (lastWatch réécrit).
+services:
+  cohabit:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    image: fork-cohabitation:dev
+    environment:
+      COHABIT_REGISTRY: /work/repos.json
+    volumes:
+      - work:/work
+    # commande par défaut = ["watch","--due"] (CMD de l'image)
+volumes:
+  work:
