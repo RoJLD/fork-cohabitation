@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cohabit-repos
+data:
+  repos.json: |
+    [
+      {
+        "name": "gitnexus",
+        "path": "./gitnexus",
+        "tier": "normal",
+        "cadence": "weekly",
+        "lastWatch": null,
+        "gitUrl": "https://github.com/RoJLD/gitnexus.git",
+        "ref": "deployment"
+      }
+    ]
