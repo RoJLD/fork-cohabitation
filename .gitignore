@@ -1,3 +1,35 @@
+# Node
 node_modules/
+dist/
+coverage/
+package-lock.json.bak
+
+# Logs
 *.log
+*.tmp
+
+# Temp / local outputs
 /tmp/
+
+# Environment / secrets — NEVER commit
+.env
+.env.local
+.env.*
+secrets/
+*.pem
+*.key
+credentials.json
+
+# IDE / editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project-specific
+notes/           # PRIVATE working notes — gitignored intentionally

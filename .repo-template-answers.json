@@ -1,0 +1,6 @@
+{
+  "tier": 2,
+  "addons": [],
+  "language": "node",
+  "notes": "Python-specific checks RT008 (pyproject) / RT009 (Makefile-pytest) / RT025 (validation) are N/A; Node-adapted Makefile + CI provided instead."
+}

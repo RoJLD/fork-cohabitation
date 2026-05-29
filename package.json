@@ -7,7 +7,9 @@
     "cohabit": "bin/cohabit.mjs"
   },
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "watch:due": "node bin/cohabit.mjs watch --due",
+    "watch:all": "node bin/cohabit.mjs watch --all"
   },
   "devDependencies": {
     "vitest": "^2.1.9"

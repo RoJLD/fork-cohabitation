@@ -1,5 +1,10 @@
-# fork-cohabitation — engineering rules
+# fork-cohabitation — Claude context
 
-- **Commit identity MUST be `roblastar@live.fr` / `Robin DENIS`** (never the Alten work email).
-- JSON config, zero runtime deps. Pure functions separated from I/O (I/O lives in `run*` wrappers + the CLI).
-- TDD: write the failing test first. Tests in `tests/`, run with `npm test`.
+The canonical agent context for this project is **[AGENTS.md](AGENTS.md)**.
+Read that file first; it covers the full project layout, common commands,
+commit identity rules, and the spec-before-plan discipline.
+
+Quick reminders:
+- Commit identity MUST be `roblastar@live.fr` / `Robin DENIS` (never the Alten work email).
+- Write the spec under `docs/specs/` before any multi-file plan.
+- Tests run with `npm test` (Vitest).
