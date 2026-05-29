@@ -51,6 +51,17 @@ Codes de sortie :
 - `10` — alerte : une release stable `vX.Y.Z` plus récente existe
 - `2` — erreur (config manquante, réseau, etc.)
 
+### `cohabit bootstrap`
+
+Clone ou met à jour les repos enregistrés qui ont un champ `gitUrl`. Utilisé
+automatiquement par le conteneur au démarrage (`deploy/entrypoint.sh`), mais
+peut aussi être lancé directement.
+
+```bash
+cohabit bootstrap
+COHABIT_REGISTRY=/work/repos.json cohabit bootstrap
+```
+
 ---
 
 ## Onboarder un repo
@@ -92,9 +103,16 @@ Champs requis :
 | Champ | Description |
 |---|---|
 | `name` | Identifiant court du repo (utilisé par les commandes `cohabit`) |
-| `path` | Chemin vers la racine du repo, résolu **relativement** à la racine de `fork-cohabitation` (ex. `"../gitnexus"`) |
+| `path` | Chemin vers la racine du repo, résolu **relativement** au dossier du registre (ex. `"../gitnexus"` pour un repo monté, `"./gitnexus"` pour un repo cloné par `bootstrap`) |
 | `tier` | Label d'importance, chaîne libre (ex. `"critical"` / `"normal"` / `"low"`) |
 | `cadence` | Fréquence de vérification pour `cohabit watch --due` : `"daily"` / `"weekly"` / `"monthly"` |
+
+Champs optionnels (déploiement cluster) :
+
+| Champ | Description |
+|---|---|
+| `gitUrl` | URL de clone git (ex. `"https://github.com/org/repo.git"`). Si présent, `cohabit bootstrap` clone ou met à jour ce repo automatiquement au démarrage du conteneur. |
+| `ref` | Branche ou tag à cloner / checkout (défaut : `"main"`). Ex. `"deployment"`, `"v1.6.5"`. |
 
 Exemple minimal :
 
@@ -105,6 +123,22 @@ Exemple minimal :
     "path": "../gitnexus",
     "tier": "normal",
     "cadence": "weekly"
+  }
+]
+```
+
+Exemple avec `gitUrl` (déploiement cluster) :
+
+```json
+[
+  {
+    "name": "gitnexus",
+    "path": "./gitnexus",
+    "tier": "normal",
+    "cadence": "weekly",
+    "lastWatch": null,
+    "gitUrl": "https://github.com/RoJLD/gitnexus.git",
+    "ref": "deployment"
   }
 ]
 ```

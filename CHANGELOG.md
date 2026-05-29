@@ -8,6 +8,25 @@ Changelog](https://keepachangelog.com/en/1.1.0/) format.
 
 ### Added
 
+- **Containerization**: `Dockerfile` (base `node:22-bookworm-slim` + `git`) +
+  `deploy/entrypoint.sh` (runs `cohabit bootstrap` then delegates to the CLI).
+- **Deployment recipes** in `deploy/`:
+  - `kubernetes/` — reference CronJob, PVC, and example ConfigMap for `repos.json`
+  - `docker-compose/` — `docker-compose.yml` with named `work` volume, local build
+  - `crontab/` — `docker run` wrapper script, crontab example, systemd service +
+    timer
+  - `README.md` — deployment guide covering volume semantics, entry modes, exit
+    code semantics, auth for private repos, and all three recipes
+- **Registry fields `gitUrl` / `ref`**: optional fields in `repos.json` entries.
+  When `gitUrl` is set, `cohabit bootstrap` clones or updates the repo into
+  `/work/<name>` (relative to the registry dir). `ref` defaults to `"main"`.
+- **`cohabit bootstrap` command**: clones/updates all registry entries that have
+  a `gitUrl`. Automatically called by the container entrypoint; also runnable
+  directly.
+- **`COHABIT_REGISTRY` env var**: path to the registry file. Defaults to
+  `repos.json` next to the CLI; in the container it is set to `/work/repos.json`.
+  Repo paths in the registry are now resolved relative to the registry's directory.
+
 ### Changed
 
 ### Deprecated

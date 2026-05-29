@@ -43,7 +43,8 @@ Phase    Description                          Status     Depends on    Effort
    A     Core CLI (drift / bump / watch)      SHIPPED    —             ~3 days
    B     Second consumer onboarding           PLANNED    A             ~1 day
    Z.1   CI + GitHub Actions                  SHIPPED    —             ~0.5 day
-   Z.2   Scheduled watch --due via cron/CI    PLANNED    A, Z.1        ~1 day
+   Z.2   Scheduled watch --due via cron/CI    SHIPPED    A, Z.1        ~1 day
+   Z.3   Cluster-portable containerization    SHIPPED    A, Z.2        ~1 day
 ```
 
 ## Phase A — Core CLI
@@ -87,10 +88,21 @@ works across two repos with different cadences.
 
 Node matrix (20.x / 22.x), `npm ci`, `npm test` on push + PR to main.
 
-### Z.2 — Scheduled watch --due
+### Z.2 — Scheduled watch --due (SHIPPED)
 
-Trigger `cohabit watch --due` on a cron schedule (GitHub Actions `schedule:`
-or a local cron). Outputs a summary and optionally posts a notification.
+`cohabit watch --due` is now runnable on a schedule via three deployment recipes:
+Kubernetes CronJob, Docker Compose + host cron, and crontab/systemd.
+
+See `deploy/README.md` for the full deployment guide.
+
+### Z.3 — Cluster-portable containerization (SHIPPED, 2026-05-29)
+
+`Dockerfile` + `deploy/entrypoint.sh` + three deployment recipes (`deploy/kubernetes/`,
+`deploy/docker-compose/`, `deploy/crontab/`). Registry entries support `gitUrl`/`ref`
+for clone-on-start; `cohabit bootstrap` is the corresponding command.
+`COHABIT_REGISTRY` env var makes the registry path configurable.
+
+Spec: `docs/specs/2026-05-29-cluster-scheduled-watch-design.md`
 
 ## Out-of-scope appendix
 

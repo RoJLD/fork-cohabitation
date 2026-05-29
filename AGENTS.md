@@ -48,8 +48,10 @@ npm test                          # run all tests (Vitest)
 node bin/cohabit.mjs drift <repo>
 node bin/cohabit.mjs bump <repo> <tag>
 node bin/cohabit.mjs watch <repo>|--all|--due
+node bin/cohabit.mjs bootstrap    # clone/update repos with gitUrl (used by container entrypoint)
 npm run watch:due                 # shorthand for watch --due
 npm run watch:all                 # shorthand for watch --all
+npm run bootstrap                 # shorthand for bootstrap
 ```
 
 ## Conventions
