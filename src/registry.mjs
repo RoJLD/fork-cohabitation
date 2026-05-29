@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 const CADENCE_DAYS = { daily: 1, weekly: 7, monthly: 30 };
 
@@ -27,4 +28,14 @@ export function resolveRepo(registry, name) {
 
 export function loadRegistry(registryPath) {
   return JSON.parse(readFileSync(registryPath, 'utf8'));
+}
+
+export function resolveRepoPath(registryDir, entry) {
+  return resolve(registryDir, entry.path);
+}
+
+export function entriesToClone(registry) {
+  return registry
+    .filter((e) => typeof e.gitUrl === 'string' && e.gitUrl.length > 0)
+    .map((e) => ({ name: e.name, gitUrl: e.gitUrl, ref: e.ref || 'main' }));
 }
