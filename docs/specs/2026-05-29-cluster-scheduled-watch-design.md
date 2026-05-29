@@ -116,3 +116,18 @@ hébergé / UI multi-repo ; CI qui build+push l'image (peut suivre).
 - CLI inchangé hors conteneur : `COHABIT_REGISTRY` absent → comportement actuel
   (les 30 tests existants restent verts).
 - Manifestes k8s valides (`kubectl --dry-run=client` ou un linter YAML).
+
+## Update 2026-05-29 — Réalité d'implémentation (Phase 4 livrée)
+
+- **Une seule variable d'env : `COHABIT_REGISTRY`** (pas de `COHABIT_HOME`). Le §3.3
+  esquissait `COHABIT_HOME` + `COHABIT_REGISTRY` ; l'implémentation a simplifié à
+  `COHABIT_REGISTRY` seul (chemin du registre, ex. `/work/repos.json`) — le dossier
+  de travail est son `dirname`, et `bootstrap` clone les entrées `gitUrl` dans ce
+  dossier. Équivalent fonctionnel, une variable de moins. Le Dockerfile fixe
+  `ENV COHABIT_REGISTRY=/work/repos.json`.
+- **Vérifié end-to-end** : `docker build` OK, `docker compose config` OK,
+  `kubectl apply --dry-run=client -f deploy/kubernetes/` valide les 3 manifestes,
+  smoke conteneur confirme la chaîne entrypoint → `bootstrap` → `watch --due`.
+- Recettes livrées : `deploy/kubernetes/` (référence), `deploy/docker-compose/`,
+  `deploy/crontab/` (+ systemd), `deploy/README.md`. Différés confirmés : build/push
+  d'image (CI), déploiement réel, backend secrets, registre hébergé/UI.
