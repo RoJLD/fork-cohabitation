@@ -4,23 +4,21 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { loadConfig } from '../src/config.mjs';
-import { loadRegistry, resolveRepo, dueRepos, resolveRepoPath, entriesToClone } from '../src/registry.mjs';
+import { loadRegistry, resolveRepo, resolveRepoPath, entriesToClone } from '../src/registry.mjs';
 import { runDrift } from '../src/drift.mjs';
 import { runReleaseWatch } from '../src/release-watch.mjs';
 import { runBump, formatBumpReport } from '../src/bump.mjs';
+import { selectWatchTargets } from '../src/orchestration.mjs';
+
+// Ré-export pour rétro-compatibilité (consommateurs externes éventuels).
+// La logique vit désormais dans src/orchestration.mjs, importable par les tests
+// sans tomber sur le shebang du CLI (qui casse l'import ESM côté Vitest).
+export { selectWatchTargets };
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const REGISTRY = process.env.COHABIT_REGISTRY
   ? resolve(process.env.COHABIT_REGISTRY)
   : resolve(ROOT, 'repos.json');
-
-// PURE : choisit les repos cibles selon les options.
-export function selectWatchTargets(registry, opts, nowMs) {
-  if (opts.all) return registry;
-  if (opts.due) return dueRepos(registry, nowMs);
-  if (opts.name) return registry.filter((e) => e.name === opts.name);
-  return [];
-}
 
 function repoPathOf(entry) { return resolveRepoPath(dirname(REGISTRY), entry); }
 

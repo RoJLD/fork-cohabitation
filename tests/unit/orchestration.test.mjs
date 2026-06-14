@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { selectWatchTargets } from '../../bin/cohabit.mjs';
+import { selectWatchTargets } from '../../src/orchestration.mjs';
 
 const REG = [
   { name: 'a', cadence: 'weekly', lastWatch: null },
